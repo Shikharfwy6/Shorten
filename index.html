@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4-Step Ad Verification</title>
+    <title>4-Step Slider Ad Verification</title>
 
     <!-- ONCLICKA HEADER SCRIPT -->
     <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="467670"></script>
-    https://bid.onclckstr.com/vast?spot_id=6153332
+
     <!-- Fluid Player CDN -->
     <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
 
@@ -31,9 +31,9 @@
 
         .container {
             width: 100%;
-            max-width: 640px;
+            max-width: 500px;
             background: #1e293b;
-            padding: 25px;
+            padding: 30px;
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             text-align: center;
@@ -53,35 +53,43 @@
 
         h2 {
             margin-bottom: 15px;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #e2e8f0;
         }
 
-        /* VAST Video Player Box */
-        .player-wrapper {
-            width: 100%;
-            min-height: 320px;
-            background: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        /* Timer UI */
+        /* TIMER BOX UI */
         .timer-box {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
+            font-size: 1.2rem;
+            margin: 25px 0;
+            padding: 15px;
+            background: #0f172a;
+            border-radius: 10px;
+            border: 1px dashed #475569;
             color: #94a3b8;
         }
 
         .timer-count {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: #f59e0b;
         }
 
-        /* Navigation Button */
+        /* FLOATING SLIDER AD CONTAINER */
+        .slider-ad-wrapper {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            z-index: 9999;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+            border: 2px solid #38bdf8;
+            transition: all 0.3s ease;
+        }
+
+        /* NAVIGATION BUTTON */
         .btn {
             width: 100%;
             padding: 14px;
@@ -114,25 +122,27 @@
             color: #22c55e;
             margin-bottom: 15px;
         }
+
+        @media (max-width: 600px) {
+            .slider-ad-wrapper {
+                width: 260px;
+                bottom: 10px;
+                right: 10px;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- PAGE 1 TO 4 CONTAINER -->
+        <!-- PAGE CONTENT -->
         <div id="step-content">
             <span class="page-badge" id="page-tag">Page 1 of 4</span>
-            <h2 id="page-title">Video Ad ko dekhein aur timer poora hone ka intezar karein</h2>
-
-            <!-- PLAYER CONTAINER WITH REQUIRED SELECTOR NAME #player -->
-            <div class="player-wrapper" id="player-box">
-                <video id="player" width="100%">
-                    <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAAA=" type="video/mp4" />
-                </video>
-            </div>
+            <h2 id="page-title">Page 1: Slider Ad dekhein aur timer complete hone dein</h2>
 
             <div class="timer-box">
-                Agle page par jaane ke liye: <span class="timer-count" id="countdown">40</span>s
+                Agle page ke liye intezar karein: <br>
+                <span class="timer-count" id="countdown">40</span> Seconds
             </div>
 
             <button id="next-btn" class="btn" disabled onclick="goNextPage()">Kripya Intezar Karein...</button>
@@ -140,13 +150,20 @@
 
         <!-- COMPLETION SCREEN -->
         <div id="final-screen" class="success-box" style="display: none;">
-            <h1>🎉 Shandar! Sabhi 4 Pages Poore Ho Gaye</h1>
-            <p>Aapka task successfully complete ho gaya hai.</p>
+            <h1>🎉 Congratulations!</h1>
+            <p>Sabhi 4 Pages successfully complete ho gaye hain.</p>
         </div>
     </div>
 
+    <!-- FLOATING SLIDER AD CONTAINER WITH #player SELECTOR -->
+    <div class="slider-ad-wrapper" id="player-box">
+        <video id="player" width="100%">
+            <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAAA=" type="video/mp4" />
+        </video>
+    </div>
+
     <script>
-        const VAST_URL = "https://bid.onclckstr.com/vast?spot_id=6153331";
+        const VAST_URL = "https://bid.onclckstr.com/vast?spot_id=6153332"; // Aapka Slider VAST Tag
         const TOTAL_PAGES = 4;
         const TIMER_DURATION = 40; // 40 Seconds
 
@@ -155,20 +172,20 @@
         let playerInstance = null;
 
         function loadPage(page) {
-            // UI Update
+            // UI Text Updates
             document.getElementById('page-tag').innerText = `Page ${page} of ${TOTAL_PAGES}`;
-            document.getElementById('page-title').innerText = `Page ${page}: Video Ad dekhein aur timer poora hone dein`;
+            document.getElementById('page-title').innerText = `Page ${page}: Slider Ad dekhein aur timer complete hone dein`;
             
             const btn = document.getElementById('next-btn');
             btn.disabled = true;
             btn.classList.remove('active');
             btn.innerText = "Kripya Intezar Karein...";
 
-            // Re-initialize Player Video Element (#player)
+            // Re-create Slider Video Element (#player)
             const playerBox = document.getElementById('player-box');
             playerBox.innerHTML = '<video id="player" width="100%"><source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAAA=" type="video/mp4" /></video>';
 
-            // Load VAST Ad Video Player
+            // Load Slider VAST Video Ad Player
             playerInstance = fluidPlayer('player', {
                 layoutControls: {
                     autoPlay: true,
@@ -180,7 +197,7 @@
                 }
             });
 
-            // Start 40 Seconds Countdown
+            // Start 40 Seconds Timer
             startTimer(TIMER_DURATION);
         }
 
@@ -219,9 +236,10 @@
                 currentPage++;
                 loadPage(currentPage);
             } else {
-                // All 4 Pages Done
+                // All 4 Pages Completed
                 document.getElementById('step-content').style.display = 'none';
                 document.getElementById('final-screen').style.display = 'block';
+                document.getElementById('player-box').style.display = 'none'; // Hide ad box on finish
             }
         }
 
