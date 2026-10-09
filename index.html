@@ -3,50 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Only Ad Display</title>
+    <title>Auto Loop VAST Ads</title>
     <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
     <style>
         body {
             background: #0f172a;
             color: #fff;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            font-family: sans-serif;
         }
         .ad-box {
             width: 100%;
             max-width: 640px;
             padding: 10px;
+            text-align: center;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
     <div class="ad-box">
+        <h3>Continuous VAST Ads Player</h3>
         <video id="my-video" controls width="100%">
-            <!-- Blank dummy stream fast loading ke liye -->
             <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAAA=" type="video/mp4" />
         </video>
+        <button onclick="loadNextAd()">Next Ad Dekhein (Manual)</button>
     </div>
 
     <script>
-        var player = fluidPlayer('my-video', {
-            layoutControls: {
-                autoPlay: true,
-                mute: true
-            },
-            vastOptions: {
-                allowVastThreshold: 2,
-                adList: [
-                    {
-                        roll: 'preRoll',
-                        vastTag: 'https://bid.onclckstr.com/vast?spot_id=6153330'
-                    }
-                ]
+        var vastList = [
+            'https://bid.onclckstr.com/vast?spot_id=6153329',
+            'https://bid.onclckstr.com/vast?spot_id=6153330'
+        ];
+        var currentIndex = 0;
+        var player = null;
+
+        function initPlayer(vastUrl) {
+            if (player) {
+                player.destroy();
             }
-        });
+            
+            player = fluidPlayer('my-video', {
+                layoutControls: {
+                    autoPlay: true,
+                    mute: true
+                },
+                vastOptions: {
+                    allowVastThreshold: 2,
+                    adList: [{ roll: 'preRoll', vastTag: vastUrl }]
+                }
+            });
+
+            // Ad finish event: Auto-play next ad
+            player.on('ended', function() {
+                console.log("Ad ended. Loading next ad...");
+                loadNextAd();
+            });
+        }
+
+        function loadNextAd() {
+            currentIndex = (currentIndex + 1) % vastList.length;
+            initPlayer(vastList[currentIndex]);
+        }
+
+        // First initialization
+        initPlayer(vastList[0]);
     </script>
 </body>
 </html>
