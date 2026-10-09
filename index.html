@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onclicka VAST Video Ad Test</title>
-
-    <!-- Fluid Player CDN (Free VAST Video Player) -->
+    <title>Onclicka Dual VAST Ads Test</title>
+    <!-- Fluid Player CDN -->
     <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
     <style>
         body {
@@ -13,21 +12,20 @@
             color: #ffffff;
             font-family: sans-serif;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
         }
 
-        .player-container {
+        .player-wrapper {
             width: 100%;
             max-width: 640px;
             background: #1e293b;
-            padding: 15px;
+            padding: 16px;
             border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
 
         h2 {
@@ -45,23 +43,27 @@
 </head>
 <body>
 
-    <div class="player-container">
-        <h2>Onclicka In-Stream VAST Video Ad Demo</h2>
-
-        <!-- HTML5 Video Element -->
-        <video id="my-video-player">
-            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+    <div class="player-wrapper">
+        <h2>Dual VAST In-Stream Ad Test</h2>
+        
+        <video id="my-video" controls>
+            <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4" />
         </video>
     </div>
 
     <script>
-        // Fluid Player Initialization with Onclicka VAST Tag
-        var myPlayer = fluidPlayer('my-video-player', {
+        var player = fluidPlayer('my-video', {
             vastOptions: {
+                allowVastThreshold: 1,
                 adList: [
                     {
-                        roll: 'preRoll', // Video shuru hone se pehle ad chalega
-                        vastTag: 'https://bid.onclckstr.com/vast?spot_id=6153329' // Aapka VAST URL
+                        roll: 'preRoll', // Video shuru hone par pehla ad
+                        vastTag: 'https://bid.onclckstr.com/vast?spot_id=6153329'
+                    },
+                    {
+                        roll: 'midRoll', // Video ke 50% chalne par doosra ad
+                        timer: '50%',
+                        vastTag: 'https://bid.onclckstr.com/vast?spot_id=6153330'
                     }
                 ]
             }
