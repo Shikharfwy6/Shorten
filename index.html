@@ -3,50 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onclicka Dual VAST Ads Test</title>
+    <title>Onclicka VAST Test</title>
     <!-- Fluid Player CDN -->
     <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
     <style>
         body {
-            background-color: #0f172a;
-            color: #ffffff;
+            background: #0f172a;
+            color: #fff;
             font-family: sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
         }
-
-        .player-wrapper {
+        .wrapper {
             width: 100%;
             max-width: 640px;
-            background: #1e293b;
-            padding: 16px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            color: #38bdf8;
-        }
-
-        video {
-            width: 100%;
-            border-radius: 8px;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div class="player-wrapper">
-        <h2>Dual VAST In-Stream Ad Test</h2>
-        
-        <video id="my-video" controls>
+    <div class="wrapper">
+        <video id="my-video" controls width="100%">
             <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4" />
         </video>
     </div>
@@ -54,21 +35,15 @@
     <script>
         var player = fluidPlayer('my-video', {
             vastOptions: {
-                allowVastThreshold: 1,
+                allowVastThreshold: 2, // Multiple redirects allow karne ke liye
                 adList: [
                     {
-                        roll: 'preRoll', // Video shuru hone par pehla ad
-                        vastTag: 'https://bid.onclckstr.com/vast?spot_id=6153329'
-                    },
-                    {
-                        roll: 'midRoll', // Video ke 50% chalne par doosra ad
-                        timer: '50%',
+                        roll: 'preRoll',
                         vastTag: 'https://bid.onclckstr.com/vast?spot_id=6153330'
                     }
                 ]
             }
         });
     </script>
-
 </body>
 </html>
