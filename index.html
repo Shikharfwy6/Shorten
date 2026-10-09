@@ -1,87 +1,88 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Loop VAST Ads</title>
-    <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
-    <style>
-        body {
-            background: #0f172a;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: sans-serif;
-        }
-        .ad-box {
-            width: 100%;
-            max-width: 640px;
-            padding: 10px;
-            text-align: center;
-        }
-        button {
-            margin-top: 15px;
-            padding: 10px 20px;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Video Page</title>
+<style>
+  :root {
+    --bg: #14161a;
+    --panel: #1d2026;
+    --text: #e8e6e1;
+    --muted: #8d9199;
+    --accent: #f2b01e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+  header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #272b33;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  header span { color: var(--accent); }
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 20px 16px 48px;
+  }
+  .player-wrap {
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+  }
+  /* Onclicka selector: #player */
+  #player {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: #000;
+  }
+  h1 { font-size: 1.35rem; margin: 18px 0 6px; }
+  p.meta { color: var(--muted); font-size: .92rem; }
+  p.desc { margin-top: 14px; max-width: 65ch; }
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: .85rem;
+    padding: 24px 16px;
+    border-top: 1px solid #272b33;
+  }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
 </head>
 <body>
 
-    <div class="ad-box">
-        <h3>Continuous VAST Ads Player</h3>
-        <video id="my-video" controls width="100%">
-            <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAAA=" type="video/mp4" />
-        </video>
-        <button onclick="loadNextAd()">Next Ad Dekhein (Manual)</button>
-    </div>
+<header>My<span>Video</span></header>
 
-    <script>
-        var vastList = [
-            'https://bid.onclckstr.com/vast?spot_id=6153329',
-            'https://bid.onclckstr.com/vast?spot_id=6153330'
-        ];
-        var currentIndex = 0;
-        var player = null;
+<main>
+  <div class="player-wrap" id="player-container">
+    <!-- Yahan apni video ka link daalo (src). Selector = #player -->
+    <video id="player" controls playsinline preload="metadata"
+      poster=""
+      src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
+    </video>
+  </div>
 
-        function initPlayer(vastUrl) {
-            if (player) {
-                player.destroy();
-            }
-            
-            player = fluidPlayer('my-video', {
-                layoutControls: {
-                    autoPlay: true,
-                    mute: true
-                },
-                vastOptions: {
-                    allowVastThreshold: 2,
-                    adList: [{ roll: 'preRoll', vastTag: vastUrl }]
-                }
-            });
+  <h1>Video ka title yahan likho</h1>
+  <p class="meta">Aaj ki video</p>
+  <p class="desc">Yahan video ke baare me chhota sa description likho.</p>
+</main>
 
-            // Ad finish event: Auto-play next ad
-            player.on('ended', function() {
-                console.log("Ad ended. Loading next ad...");
-                loadNextAd();
-            });
-        }
+<footer>&copy; My Video Page</footer>
 
-        function loadNextAd() {
-            currentIndex = (currentIndex + 1) % vastList.length;
-            initPlayer(vastList[currentIndex]);
-        }
-
-        // First initialization
-        initPlayer(vastList[0]);
-    </script>
+<!--
+  ONCLICKA AD CODE:
+  Create dabane ke baad Onclicka jo <script> code dega,
+  use yahan </body> se pehle paste karo.
+-->
+<script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="467670"></script>
 </body>
 </html>
