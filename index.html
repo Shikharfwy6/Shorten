@@ -7,7 +7,15 @@
 
     <!-- ONCLICKA HEADER SCRIPT -->
     <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="467670"></script>
-
+<script>
+if (typeof window.pushONclsuboffer === "undefined") {
+ document.addEventListener('pushONclStarted', (e) => {
+  window.pushONclsuboffer.activate()
+ });
+} else {
+ window.pushONclsuboffer.activate()
+}
+</script>
     <!-- Fluid Player CDN -->
     <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
 
