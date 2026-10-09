@@ -3,39 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onclicka VAST Test</title>
-    <!-- Fluid Player CDN -->
+    <title>Only Ad Display</title>
     <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
     <style>
         body {
             background: #0f172a;
             color: #fff;
-            font-family: sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
         }
-        .wrapper {
+        .ad-box {
             width: 100%;
             max-width: 640px;
-            padding: 20px;
+            padding: 10px;
         }
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
+    <div class="ad-box">
         <video id="my-video" controls width="100%">
-            <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4" />
+            <!-- Blank dummy stream fast loading ke liye -->
+            <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAAA=" type="video/mp4" />
         </video>
     </div>
 
     <script>
         var player = fluidPlayer('my-video', {
+            layoutControls: {
+                autoPlay: true,
+                mute: true
+            },
             vastOptions: {
-                allowVastThreshold: 2, // Multiple redirects allow karne ke liye
+                allowVastThreshold: 2,
                 adList: [
                     {
                         roll: 'preRoll',
